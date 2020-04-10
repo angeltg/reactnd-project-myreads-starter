@@ -4,17 +4,21 @@ import SelectShelf from "./SelectShelf";
 
 class Book extends Component {
   bookImage = (imageLinks) => {
-    return "url(" + imageLinks.smallThumbnail + ")";
+    const bookImageThumbnail = imageLinks && imageLinks.smallThumbnail;
+    return "url(" + bookImageThumbnail + ")";
   };
   listAuthors = (authors) => {
-    let displayAuthors = authors.map((author) => author);
+    let displayAuthors = "";
+    if (authors) {
+      displayAuthors = authors.map((author) => author);
+    }
     return displayAuthors;
   };
 
   render() {
     const { book, handleChangeBookToShelf } = this.props;
     const handleChangeShelf = (e) => {
-      handleChangeBookToShelf(e.target.value, book.id);
+      handleChangeBookToShelf(book, e.target.value);
     };
     return (
       <li>
