@@ -7,13 +7,14 @@ class SearchBooks extends Component {
     const {
       handleChangeBookToShelf,
       updateQuery,
-      searchBooksResult
+      searchBooksResult,
+      cleanSearchBooks
     } = this.props;
 
     return (
       <div className="search-books">
         <div className="search-books-bar">
-          <Link className="close-search" to="/">
+          <Link className="close-search" to="/" onClick={cleanSearchBooks}>
             Close
           </Link>
 

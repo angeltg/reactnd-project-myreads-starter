@@ -20,7 +20,6 @@ class BooksApp extends React.Component {
 
   //Shearch Page
   getSearchBooks = query => {
-    console.log(query.trim());
     query &&
       BooksAPI.search(query.trim()).then(booksFound => {
         booksFound &&
@@ -34,15 +33,13 @@ class BooksApp extends React.Component {
               return bookFound;
             })
           );
-
         this.setState({ booksForSearch: booksFound });
       });
     this.setState({ booksForSearch: [] });
   };
 
-  handleChangeShowSearchPage = () => {
-    this.setState({ showSearchPage: false });
-    this.getMyBooks();
+  cleanSearchBooks = () => {
+    this.setState({ booksForSearch: [] });
   };
 
   //Main page
@@ -133,10 +130,10 @@ class BooksApp extends React.Component {
           path="/search"
           render={() => (
             <SearchBooks
-              handleChangeShowSearchPage={this.handleChangeShowSearchPage}
               handleChangeBookToShelf={this.handleChangeBookToShelf}
               updateQuery={this.getSearchBooks}
               searchBooksResult={this.state.booksForSearch}
+              cleanSearchBooks={this.cleanSearchBooks}
             />
           )}
         />

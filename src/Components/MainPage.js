@@ -13,7 +13,7 @@ class MainPage extends Component {
         </div>
         <div className="list-books-content">
           <div>
-            {shelves.map((shelf) => {
+            {shelves.map(shelf => {
               return (
                 <Shelf
                   key={shelf.code}
