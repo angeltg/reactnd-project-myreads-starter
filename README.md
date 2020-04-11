@@ -1,7 +1,9 @@
 # MyReads Project
 
 Use this project to organize a personal library. Select books from the **search** page and look them in the **main** page, each one in his shelf.
+
 You can change the book between shelves. The shelves are **Currently Reading**, **Want to Read** and **Read**.
+
 When you select a book from the search page you can to select the diferents shelves too.
 
 ## Installation
@@ -34,7 +36,6 @@ To get started right away:
     │   └── arrow-drop-down.svg
     ├── index.css # Global styles. You probably won't need to change anything here.
     ├── index.js # You should not need to modify this file. It is used for DOM rendering only.
-
     ├── Components
     │   ├── Author.js # List the authors of the book. Import in Book.js
     │   ├── Book.js # Detail of one book from search page and from main page. Import in ListBooks.
