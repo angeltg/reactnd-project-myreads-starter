@@ -8,41 +8,9 @@ import SearchBooks from "./Components/SearchBooks";
 
 class BooksApp extends React.Component {
   state = {
-    /**
-     * TODO: Instead of using this state variable to keep track of which page
-     * we're on, use the URL in the browser's address bar. This will ensure that
-     * users can use the browser's back and forward buttons to navigate between
-     * pages, as well as provide a good URL they can bookmark and share.
-     */
-    books: [],
-    booksForSearch: []
+    books: []
   };
 
-  //Shearch Page
-  getSearchBooks = query => {
-    query &&
-      BooksAPI.search(query.trim()).then(booksFound => {
-        booksFound &&
-          booksFound.length > 0 &&
-          this.state.books.map(book =>
-            booksFound.map(bookFound => {
-              if (bookFound.id === book.id) {
-                bookFound.shelf = book.shelf;
-                return bookFound;
-              }
-              return bookFound;
-            })
-          );
-        this.setState({ booksForSearch: booksFound });
-      });
-    this.setState({ booksForSearch: [] });
-  };
-
-  cleanSearchBooks = () => {
-    this.setState({ booksForSearch: [] });
-  };
-
-  //Main page
   getMyBooks = () => {
     BooksAPI.getAll().then(books => {
       books &&
@@ -52,24 +20,16 @@ class BooksApp extends React.Component {
     });
   };
 
-  filterBooksByShelf = shelfCode => {
-    const stateBooks = this.state.books;
-    const booksByShelf = stateBooks.filter(book => {
-      return book.shelf === shelfCode;
-    });
-    return booksByShelf;
-  };
-
   existBookInMyShelves = bookForSearch => {
     const bookState = this.state.books;
     const bookInMyShelves = bookState.filter(book => {
       return book.id === bookForSearch.id;
     });
-    return bookInMyShelves && bookInMyShelves.length > 0 ? true : false;
+    return bookInMyShelves && bookInMyShelves.length > 0;
   };
 
-  changeBookToShelf = (bookForChange, shelfTo, listBooks) => {
-    return listBooks.map(book => {
+  changeBookToShelf = (bookForChange, shelfTo) => {
+    return this.state.books.map(book => {
       if (book.id === bookForChange.id) {
         book.shelf = shelfTo;
         return book;
@@ -85,9 +45,8 @@ class BooksApp extends React.Component {
 
   handleChangeBookToShelf = (bookForChange, shelfTo) => {
     const booksUdated = this.existBookInMyShelves(bookForChange)
-      ? this.changeBookToShelf(bookForChange, shelfTo, this.state.books)
+      ? this.changeBookToShelf(bookForChange, shelfTo)
       : this.addBookToMyLibrary(bookForChange, shelfTo);
-
     this.setState({ books: booksUdated });
     BooksAPI.update(bookForChange, shelfTo);
   };
@@ -121,7 +80,7 @@ class BooksApp extends React.Component {
             <MainPage
               shelves={shelves}
               handleChangeBookToShelf={this.handleChangeBookToShelf}
-              filterBooksByShelf={this.filterBooksByShelf}
+              myBooks={this.state.books}
             />
           )}
         />
@@ -131,9 +90,7 @@ class BooksApp extends React.Component {
           render={() => (
             <SearchBooks
               handleChangeBookToShelf={this.handleChangeBookToShelf}
-              updateQuery={this.getSearchBooks}
-              searchBooksResult={this.state.booksForSearch}
-              cleanSearchBooks={this.cleanSearchBooks}
+              myBooks={this.state.books}
             />
           )}
         />
